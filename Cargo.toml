@@ -1,0 +1,22 @@
+[package]
+name = "libcplusplus"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+authors = ["Joseph R. Quinn"]
+
+[lib]
+crate-type = ["cdylib", "staticlib"]
+
+[features]
+default = []
+sanitize = []
+
+[dependencies]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
