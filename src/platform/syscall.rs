@@ -1,7 +1,7 @@
-/// Raw Linux x86_64 syscall wrappers.
-///
-/// These bypass all Rust and C library layers, issuing syscalls directly
-/// via the `syscall` instruction.
+//! Raw Linux x86_64 syscall wrappers.
+//!
+//! These bypass all Rust and C library layers, issuing syscalls directly
+//! via the `syscall` instruction.
 
 /// Write bytes to a file descriptor.
 /// Returns the number of bytes written, or a negative errno on failure.

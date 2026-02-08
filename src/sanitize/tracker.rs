@@ -145,8 +145,9 @@ pub fn report_leaks() {
     });
     let mut dec_buf = [0u8; 20];
     crate::sanitize::diagnostic::write_stderr(b"  total leaks: ");
-    crate::sanitize::diagnostic::write_stderr(
-        crate::sanitize::diagnostic::format_dec(guard.count, &mut dec_buf),
-    );
+    crate::sanitize::diagnostic::write_stderr(crate::sanitize::diagnostic::format_dec(
+        guard.count,
+        &mut dec_buf,
+    ));
     crate::sanitize::diagnostic::write_stderr(b"\n\n");
 }

@@ -7,7 +7,6 @@ pub fn write_stderr(msg: &[u8]) {
     unsafe { crate::platform::syscall::sys_write(2, msg.as_ptr(), msg.len()) };
 }
 
-
 /// Format a usize as a 16-digit zero-padded hex string with 0x prefix.
 /// Writes into the provided 18-byte buffer and returns a slice of it.
 pub fn format_hex(value: usize, buf: &mut [u8; 18]) -> &[u8] {
@@ -16,7 +15,11 @@ pub fn format_hex(value: usize, buf: &mut [u8; 18]) -> &[u8] {
     let mut v = value;
     for i in (2..18).rev() {
         let digit = (v & 0xF) as u8;
-        buf[i] = if digit < 10 { b'0' + digit } else { b'a' + digit - 10 };
+        buf[i] = if digit < 10 {
+            b'0' + digit
+        } else {
+            b'a' + digit - 10
+        };
         v >>= 4;
     }
     buf

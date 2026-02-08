@@ -18,6 +18,9 @@ sanitize = []
 
 [dependencies]
 
+[dev-dependencies]
+cargo-husky = { version = "1.5.0", default-features = false, features = ["user-hooks"] }
+
 [profile.dev]
 panic = "abort"
 

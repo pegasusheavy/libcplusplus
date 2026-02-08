@@ -24,7 +24,7 @@ unsafe impl GlobalAlloc for CAllocator {
         }
     }
 
-    unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+    unsafe fn dealloc(&self, ptr: *mut u8, #[allow(unused_variables)] layout: Layout) {
         #[cfg(feature = "sanitize")]
         {
             unsafe { sanitize::sanitized_dealloc(ptr, layout) };
@@ -37,7 +37,12 @@ unsafe impl GlobalAlloc for CAllocator {
         }
     }
 
-    unsafe fn realloc(&self, ptr: *mut u8, layout: Layout, new_size: usize) -> *mut u8 {
+    unsafe fn realloc(
+        &self,
+        ptr: *mut u8,
+        #[allow(unused_variables)] layout: Layout,
+        new_size: usize,
+    ) -> *mut u8 {
         #[cfg(feature = "sanitize")]
         {
             return unsafe { sanitize::sanitized_realloc(ptr, layout, new_size) };
@@ -50,9 +55,13 @@ unsafe impl GlobalAlloc for CAllocator {
     }
 }
 
+// The test harness provides its own global allocator and panic handler.
+// Only register ours for non-test builds.
+#[cfg(not(test))]
 #[global_allocator]
 static ALLOCATOR: CAllocator = CAllocator;
 
+#[cfg(not(test))]
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
     // SAFETY: abort is provided by the C runtime and never returns.

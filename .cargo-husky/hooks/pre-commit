@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+
+echo "==> cargo fmt --check"
+cargo fmt --check
+
+echo "==> cargo clippy -- -D warnings"
+cargo clippy -- -D warnings
+
+echo "==> cargo build"
+cargo build
+
+echo "==> cargo build --features sanitize"
+cargo build --features sanitize
+
+echo "All pre-commit checks passed."
