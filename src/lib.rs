@@ -15,7 +15,7 @@ unsafe impl GlobalAlloc for CAllocator {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         #[cfg(feature = "sanitize")]
         {
-            return unsafe { sanitize::sanitized_alloc(layout) };
+            unsafe { sanitize::sanitized_alloc(layout) }
         }
         #[cfg(not(feature = "sanitize"))]
         {
@@ -28,7 +28,6 @@ unsafe impl GlobalAlloc for CAllocator {
         #[cfg(feature = "sanitize")]
         {
             unsafe { sanitize::sanitized_dealloc(ptr, layout) };
-            return;
         }
         #[cfg(not(feature = "sanitize"))]
         {
@@ -45,7 +44,7 @@ unsafe impl GlobalAlloc for CAllocator {
     ) -> *mut u8 {
         #[cfg(feature = "sanitize")]
         {
-            return unsafe { sanitize::sanitized_realloc(ptr, layout, new_size) };
+            unsafe { sanitize::sanitized_realloc(ptr, layout, new_size) }
         }
         #[cfg(not(feature = "sanitize"))]
         {

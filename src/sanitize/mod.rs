@@ -38,13 +38,15 @@ pub unsafe fn sanitized_alloc(layout: Layout) -> *mut u8 {
 /// # Safety
 /// `ptr` must have been returned by `sanitized_alloc`.
 pub unsafe fn sanitized_dealloc(ptr: *mut u8, _layout: Layout) {
-    dealloc_inner(ptr, AllocKind::Rust);
+    unsafe { dealloc_inner(ptr, AllocKind::Rust) };
 }
 
 /// Deallocation logic shared between the global allocator and future
 /// operator delete exports. `expected_kind` is checked against the
 /// tracked allocation kind.
-pub fn dealloc_inner(ptr: *mut u8, expected_kind: AllocKind) {
+/// # Safety
+/// `ptr` must be null or a pointer previously returned by `sanitized_alloc`.
+pub unsafe fn dealloc_inner(ptr: *mut u8, expected_kind: AllocKind) {
     if ptr.is_null() {
         return;
     }
@@ -117,10 +119,10 @@ pub unsafe fn sanitized_realloc(ptr: *mut u8, layout: Layout, new_size: usize) -
 /// Rust alloc is compatible with itself. Future operator new/delete
 /// will enforce scalar vs array matching.
 fn kind_compatible(tracked: AllocKind, freed: AllocKind) -> bool {
-    match (tracked, freed) {
-        (AllocKind::Rust, AllocKind::Rust) => true,
-        (AllocKind::ScalarNew, AllocKind::ScalarNew) => true,
-        (AllocKind::ArrayNew, AllocKind::ArrayNew) => true,
-        _ => false,
-    }
+    matches!(
+        (tracked, freed),
+        (AllocKind::Rust, AllocKind::Rust)
+            | (AllocKind::ScalarNew, AllocKind::ScalarNew)
+            | (AllocKind::ArrayNew, AllocKind::ArrayNew)
+    )
 }

@@ -6,6 +6,7 @@ const CAPACITY: usize = 256;
 struct Entry {
     user_addr: usize,
     base_addr: usize,
+    #[allow(dead_code)]
     user_size: usize,
 }
 

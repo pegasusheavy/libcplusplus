@@ -7,6 +7,12 @@ use core::sync::atomic::{AtomicU64, Ordering};
 /// on dereference — a mismatch means the iterator is invalidated.
 pub struct Epoch(AtomicU64);
 
+impl Default for Epoch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Epoch {
     pub const fn new() -> Self {
         Self(AtomicU64::new(0))
