@@ -5,7 +5,7 @@ edition = "2024"
 license = "MIT OR Apache-2.0"
 authors = ["Joseph R. Quinn"]
 description = "A no_std reimplementation of LLVM's libc++ in Rust with ABI-compatible C++ standard library types and a built-in memory sanitizer"
-repository = "https://github.com/pegasusheavy/libcplusplus"
+repository = "https://github.com/quinnjr/libcplusplus"
 keywords = ["libc++", "cpp", "ffi", "no-std", "sanitizer"]
 categories = ["no-std", "external-ffi-bindings"]
 
